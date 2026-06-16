@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senza Nome — Orso Umano Barbaro Lv.5</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #C0392B; --red-light: #E8C4C0; --red-dark: #7B241C; --red-deep: #2C0A07;
+    --gold: #C9A84C; --gold-light: #F0DFA0; --gold-dark: #7A5F1A;
+    --ink: #1A1410; --parchment: #F5EDD8; --parchment2: #EDE0C4; --parchment3: #E0CFA8;
+    --text: #2A1F10; --text-muted: #6B4F30; --text-light: #A07850;
+    --border: #C9A84C55;
+    --brown: #5C3D1E; --brown-light: #8B6340; --brown-deep: #1A0D05;
+  }
+  body {
+    background: #1A1410;
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-image: radial-gradient(ellipse at 20% 10%, #2C1810 0%, transparent 50%), radial-gradient(ellipse at 80% 90%, #1A0D0A 0%, transparent 50%);
+  }
+  .page {
+    max-width: 860px; margin: 0 auto;
+    background: var(--parchment); border-radius: 4px;
+    box-shadow: 0 0 0 1px var(--gold-dark), 0 0 0 4px var(--red-dark), 0 0 0 6px var(--gold-dark), 0 8px 60px rgba(0,0,0,0.7);
+    overflow: hidden; position: relative;
+  }
+  .page::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.5; z-index: 0;
+  }
+  .content { position: relative; z-index: 1; }
+
+  .header {
+    background: var(--ink); padding: 2rem 2.5rem 1.5rem;
+    border-bottom: 3px solid var(--gold); position: relative; overflow: hidden;
+  }
+  .header::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--brown), var(--gold), transparent);
+  }
+  .header-inner { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; }
+  .char-name { font-family: 'Cinzel', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-light); line-height: 1; letter-spacing: 0.02em; font-style: italic; }
+  .char-tagline { font-family: 'Crimson Pro', serif; font-size: 0.9rem; color: var(--red-light); margin-top: 0.4rem; font-style: italic; letter-spacing: 0.03em; }
+  .char-sub { font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--gold-dark); letter-spacing: 0.12em; margin-top: 0.8rem; text-transform: uppercase; }
+  .level-badge { background: var(--red-dark); border: 1px solid var(--gold); border-radius: 3px; padding: 0.5rem 1rem; text-align: center; }
+  .level-num { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+  .level-label { font-family: 'Cinzel', serif; font-size: 0.6rem; color: var(--gold-dark); letter-spacing: 0.15em; display: block; margin-top: 2px; }
+
+  .body { padding: 2rem 2.5rem; }
+  .section-title {
+    font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.18em; color: var(--red-dark); text-transform: uppercase;
+    margin-bottom: 0.75rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--gold-dark);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-title::before { content: '⚔'; font-size: 0.7rem; color: var(--gold-dark); }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+  .noname-box {
+    background: var(--brown-deep); border: 1px solid var(--brown);
+    border-left: 4px solid var(--brown-light); border-radius: 2px;
+    padding: 0.9rem 1.2rem; margin-bottom: 1.8rem;
+    font-style: italic; font-size: 0.95rem; color: #D4B896; line-height: 1.7;
+  }
+
+  .attr-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 1.8rem; }
+  .attr-card { background: var(--parchment2); border: 1px solid var(--border); border-radius: 3px; padding: 8px 4px; text-align: center; }
+  .attr-card.highlight { background: var(--red-deep); border-color: var(--red); }
+  .attr-card.highlight .attr-name { color: var(--red-light); }
+  .attr-card.highlight .attr-mod { color: var(--gold-light); }
+  .attr-card.highlight .attr-base { color: var(--red-light); opacity: 0.7; }
+  .attr-name { font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+  .attr-mod { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .attr-mod.neg { color: var(--red-dark); }
+  .attr-base { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; }
+  .asi-note { font-size: 0.78rem; color: var(--text-light); font-style: italic; margin-top: -12px; margin-bottom: 1.5rem; padding-left: 4px; }
+
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.8rem; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.8rem; }
+  .stat-card { background: var(--parchment2); border: 1px solid var(--border); border-radius: 3px; padding: 0.75rem 1rem; text-align: center; }
+  .stat-big { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-big.hp { color: var(--red-dark); }
+  .stat-label-sm { font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+  .stat-sub { font-size: 0.72rem; color: var(--text-light); font-style: italic; margin-top: 2px; }
+
+  .table-card { background: var(--parchment2); border: 1px solid var(--border); border-radius: 3px; padding: 1rem 1.2rem; }
+  .table-card .section-title { margin-bottom: 0.6rem; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .row:last-child { border-bottom: none; }
+  .row-label { color: var(--text-muted); }
+  .row-val { font-weight: 600; color: var(--text); }
+  .row-val.good { color: #3B6D11; }
+  .row-val.bad { color: var(--red-dark); }
+  .row-val.gold { color: var(--gold-dark); }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.8rem; }
+  .pill { background: var(--parchment2); border: 1px solid var(--border); border-radius: 20px; font-size: 0.8rem; padding: 3px 12px; color: var(--text-muted); }
+  .pill.starred { background: var(--ink); color: var(--gold-light); border-color: var(--gold-dark); }
+
+  .feature { background: var(--parchment2); border: 1px solid var(--border); border-radius: 3px; padding: 0.8rem 1rem; margin-bottom: 8px; }
+  .feature-title { font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 4px; letter-spacing: 0.04em; }
+  .feature-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+  .feature.path { background: var(--red-deep); border-color: var(--red-dark); }
+  .feature.path .feature-title { color: var(--gold-light); }
+  .feature.path .feature-desc { color: var(--red-light); }
+  .feature.bear { background: #1A0D05; border-color: var(--brown); }
+  .feature.bear .feature-title { color: #D4B896; }
+  .feature.bear .feature-desc { color: #A07850; }
+  .new-tag { display: inline-block; background: #3B6D11; color: #C0DD97; font-family: 'Cinzel', serif; font-size: 0.55rem; padding: 1px 6px; border-radius: 2px; letter-spacing: 0.08em; margin-left: 6px; vertical-align: middle; text-transform: uppercase; }
+
+  .rage-box { background: var(--red-deep); border: 1px solid var(--red); border-radius: 3px; padding: 1rem 1.2rem; margin-bottom: 1.8rem; }
+  .rage-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+  .rage-title { font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 600; color: var(--gold-light); letter-spacing: 0.06em; text-transform: uppercase; }
+  .pip { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--red); border: 1px solid var(--gold-dark); }
+
+  .eq-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .eq-row:last-child { border-bottom: none; }
+  .eq-name { color: var(--text); }
+  .eq-note { color: var(--text-light); font-style: italic; }
+
+  .bg-block { border-left: 3px solid var(--brown-light); padding: 0.8rem 1rem; margin-bottom: 10px; font-size: 0.92rem; color: var(--text-muted); line-height: 1.75; background: rgba(0,0,0,0.03); }
+  .bg-block strong { color: var(--text); font-weight: 600; }
+  .bg-block.key { border-left-color: var(--red); }
+
+  .trait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 1rem; }
+  .trait-item { background: var(--parchment3); border: 1px solid var(--border); border-radius: 2px; padding: 8px 12px; }
+  .trait-label { font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.12em; color: var(--text-light); text-transform: uppercase; margin-bottom: 3px; }
+  .trait-val { font-size: 0.88rem; color: var(--text); line-height: 1.4; }
+  .trait-val.empty { color: var(--text-light); font-style: italic; }
+
+  .homebrew-tag {
+    display: inline-block; background: #3A2A0A; color: var(--gold);
+    font-family: 'Cinzel', serif; font-size: 0.58rem; padding: 2px 8px;
+    border: 1px solid var(--gold-dark); border-radius: 2px;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-left: 8px; vertical-align: middle;
+  }
+
+  .footer { background: var(--ink); border-top: 2px solid var(--gold-dark); padding: 0.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-text { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--gold-dark); text-transform: uppercase; }
+
+  @media (max-width: 640px) {
+    .body { padding: 1.2rem 1rem; } .header { padding: 1.2rem 1rem 1rem; }
+    .attr-grid { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .trait-grid { grid-template-columns: 1fr; }
+    .char-name { font-size: 1.7rem; }
+    .footer { flex-direction: column; gap: 4px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="content">
+
+  <div class="header">
+    <div class="header-inner">
+      <div>
+        <div class="char-name">Senza Nome</div>
+        <div class="char-tagline">Abbandonato prima ancora di aprire gli occhi. Si è fatto da solo.</div>
+        <div class="char-sub">Orso Umano (Bearfolk) &nbsp;·&nbsp; Barbaro — Percorso del Berserker &nbsp;·&nbsp; Caotico Neutrale</div>
+      </div>
+      <div class="level-badge">
+        <div class="level-num">5</div>
+        <span class="level-label">Livello</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="noname-box">
+      Per gli orsi umani non esiste famiglia. Il padre sparisce dopo il concepimento — è nella loro natura. La madre spesso abbandona i cuccioli poco dopo la nascita. Lui è sopravvissuto. Non sa come. Non se lo chiede. Gli altri mercenari lo chiamano come vogliono. A lui non importa: non ha mai avuto un nome, e non sa nemmeno cosa significhi averne uno.
+    </div>
+
+    <!-- ATTRIBUTI -->
+    <div class="section-title">Attributi</div>
+    <div class="attr-grid">
+      <div class="attr-card highlight">
+        <div class="attr-name">Forza</div>
+        <div class="attr-mod">+4</div>
+        <div class="attr-base">19 (15+2+2)</div>
+      </div>
+      <div class="attr-card">
+        <div class="attr-name">Destrezza</div>
+        <div class="attr-mod neg">−1</div>
+        <div class="attr-base">8</div>
+      </div>
+      <div class="attr-card">
+        <div class="attr-name">Costituzione</div>
+        <div class="attr-mod">+1</div>
+        <div class="attr-base">13 (12+1)</div>
+      </div>
+      <div class="attr-card">
+        <div class="attr-name">Intelligenza</div>
+        <div class="attr-mod neg">−4</div>
+        <div class="attr-base">3</div>
+      </div>
+      <div class="attr-card">
+        <div class="attr-name">Saggezza</div>
+        <div class="attr-mod neg">−4</div>
+        <div class="attr-base">2</div>
+      </div>
+      <div class="attr-card">
+        <div class="attr-name">Carisma</div>
+        <div class="attr-mod">0</div>
+        <div class="attr-base">11</div>
+      </div>
+    </div>
+    <p class="asi-note">+2 FOR e +1 COS dalla razza Bearfolk · ASI al liv. 4: +2 FOR · Bonus Competenza: +3</p>
+
+    <div class="grid-4">
+      <div class="stat-card">
+        <div class="stat-big hp">45</div>
+        <div class="stat-label-sm">Punti Vita</div>
+        <div class="stat-sub">12+1 + 4×(7+1)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-big">13</div>
+        <div class="stat-label-sm">Classe Armatura</div>
+        <div class="stat-sub">Armatura Naturale (13−1)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-big">+3</div>
+        <div class="stat-label-sm">Bonus Competenza</div>
+        <div class="stat-sub">Livello 5</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-big">12 m</div>
+        <div class="stat-label-sm">Velocità</div>
+        <div class="stat-sub">+3 m Mov. Rapido</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="table-card">
+        <div class="section-title">Tiri &amp; Attacchi</div>
+        <div class="row"><span class="row-label">Attacco mischia (FOR)</span><span class="row-val good">+7</span></div>
+        <div class="row"><span class="row-label">Attacchi per turno</span><span class="row-val good">2</span></div>
+        <div class="row"><span class="row-label">Artigli naturali (1d6)</span><span class="row-val good">+7</span></div>
+        <div class="row"><span class="row-label">Danno bonus in Furia</span><span class="row-val good">+2</span></div>
+        <div class="row"><span class="row-label">Attacco bonus (Frenesia)</span><span class="row-val good">+1 mischia</span></div>
+        <div class="row"><span class="row-label">Attacco distanza (DES)</span><span class="row-val bad">+2</span></div>
+        <div class="row"><span class="row-label">Percezione passiva</span><span class="row-val bad">6</span></div>
+      </div>
+      <div class="table-card">
+        <div class="section-title">Tiri Salvezza</div>
+        <div class="row"><span class="row-label">Forza ✦</span><span class="row-val good">+7</span></div>
+        <div class="row"><span class="row-label">Costituzione ✦</span><span class="row-val good">+4</span></div>
+        <div class="row"><span class="row-label">Destrezza (Senso del Pericolo)</span><span class="row-val gold">vantaggio</span></div>
+        <div class="row"><span class="row-label">Intelligenza</span><span class="row-val bad">−4</span></div>
+        <div class="row"><span class="row-label">Saggezza</span><span class="row-val bad">−4</span></div>
+        <div class="row"><span class="row-label">Carisma</span><span class="row-val">0</span></div>
+      </div>
+    </div>
+
+    <div class="section-title">Competenze</div>
+    <div class="pills">
+      <span class="pill starred">✦ Atletica (FOR) +10</span>
+      <span class="pill starred">✦ Intimidazione (CAR) +5</span>
+      <span class="pill starred">✦ Percezione (SAG) — Fiuto Acuto</span>
+      <span class="pill">Sopravvivenza (SAG) −4</span>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FURIA -->
+    <div class="section-title">Furia</div>
+    <div class="rage-box">
+      <div class="rage-header">
+        <div class="rage-title">3 usi / riposo lungo</div>
+        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+        <span style="font-size:0.78rem;color:#F0997B;margin-left:4px">+2 danno</span>
+      </div>
+      <div class="row" style="border-color:#7B241C44"><span class="row-label" style="color:#F0997B">Attiva con</span><span class="row-val" style="color:#F0DFA0">Azione bonus</span></div>
+      <div class="row" style="border-color:#7B241C44"><span class="row-label" style="color:#F0997B">Durata</span><span class="row-val" style="color:#F0DFA0">1 minuto</span></div>
+      <div class="row" style="border-color:#7B241C44"><span class="row-label" style="color:#F0997B">Bonus danno mischia FOR</span><span class="row-val" style="color:#C0DD97">+2</span></div>
+      <div class="row" style="border-color:#7B241C44"><span class="row-label" style="color:#F0997B">Resistenza danni</span><span class="row-val" style="color:#F0DFA0">contundenti, perforanti, taglienti</span></div>
+      <div class="row" style="border-color:#7B241C44"><span class="row-label" style="color:#F0997B">Vantaggio ai tiri</span><span class="row-val" style="color:#F0DFA0">Forza</span></div>
+      <div class="row" style="border-color:#7B241C44"><span class="row-label" style="color:#F0997B">Frenesia (azione bonus)</span><span class="row-val" style="color:#C0DD97">+1 attacco mischia</span></div>
+      <div class="row" style="border-color:transparent"><span class="row-label" style="color:#F0997B">Costo Frenesia</span><span class="row-val" style="color:#F09595">1 livello Spossatezza</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CLASSE -->
+    <div class="section-title">Capacità di Classe — Livelli 1–5</div>
+    <div class="feature">
+      <div class="feature-title">Difesa Senz'Armatura</div>
+      <div class="feature-desc">Senza armatura: CA = 10 + DES (−1) + COS (+1) = 10. La sua armatura naturale (13+DES) è già migliore.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-title">Attacco Sconsiderato <span class="new-tag">liv 2</span></div>
+      <div class="feature-desc">Vantaggio al primo attacco del turno. In cambio, tutti gli attacchi contro di lui hanno vantaggio. Perfetto per chi non calcola le conseguenze.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-title">Senso del Pericolo <span class="new-tag">liv 2</span></div>
+      <div class="feature-desc">Vantaggio ai tiri salvezza su Destrezza contro effetti visibili. Istinto animale affinato da una vita di solitudine.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-title">Attacco Extra <span class="new-tag">liv 5</span></div>
+      <div class="feature-desc">2 attacchi ogni volta che usa l'azione Attaccare. In Frenesia, può aggiungerne un terzo come azione bonus.</div>
+    </div>
+    <div class="feature" style="margin-bottom:1.5rem">
+      <div class="feature-title">Movimento Rapido <span class="new-tag">liv 5</span></div>
+      <div class="feature-desc">Velocità +3 m senza armature pesanti. Totale: 12 m per turno.</div>
+    </div>
+
+    <!-- BERSERKER -->
+    <div class="section-title">Percorso Primordiale — Berserker</div>
+    <div class="feature path">
+      <div class="feature-title">Frenesia <span class="new-tag">liv 3</span></div>
+      <div class="feature-desc">In Furia può andare in Frenesia: un attacco mischia aggiuntivo come azione bonus ogni turno. Al termine subisce 1 livello di Spossatezza.</div>
+    </div>
+    <div class="feature path" style="margin-bottom:1.5rem">
+      <div class="feature-title">Presenza Intimidatoria <span class="new-tag">liv 3</span></div>
+      <div class="feature-desc">Come azione, spaventa una creatura entro 9 m. CD 12 (8+3+1). Se fallisce il tiro SAG, è Spaventata fino alla fine del turno successivo.</div>
+    </div>
+
+    <!-- RAZZIALI BEARFOLK -->
+    <div class="section-title">Capacità Razziali — Orso Umano <span class="homebrew-tag">Homebrew</span></div>
+    <div class="feature bear">
+      <div class="feature-title">Artigli Naturali</div>
+      <div class="feature-desc">Attacco disarmato con gli artigli: 1d6 + mod FOR tagliante. Può usarli al posto di qualsiasi arma da mischia. Non può essere disarmato.</div>
+    </div>
+    <div class="feature bear">
+      <div class="feature-title">Armatura Naturale</div>
+      <div class="feature-desc">CA base = 13 + mod DES senza armatura. Con la sua DES (−1) ottiene CA 12 — equivalente all'armatura di cuoio. Può indossare armature normali se preferisce.</div>
+    </div>
+    <div class="feature bear">
+      <div class="feature-title">Corporatura Possente</div>
+      <div class="feature-desc">Conta come creatura di taglia Grande per determinare il peso trasportabile e spingibile. Può usare armi pesanti senza penalità.</div>
+    </div>
+    <div class="feature bear">
+      <div class="feature-title">Fiuto Acuto</div>
+      <div class="feature-desc">Vantaggio a tutte le prove di Percezione basate sull'olfatto. Può tracciare creature per odore anche al buio completo.</div>
+    </div>
+    <div class="feature bear" style="margin-bottom:1.5rem">
+      <div class="feature-title">Visione Oscura</div>
+      <div class="feature-desc">Vede nel buio fino a 18 metri come se fosse luce fioca.</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- EQUIPAGGIAMENTO -->
+    <div class="section-title">Equipaggiamento</div>
+    <div class="table-card" style="margin-bottom:1.8rem">
+      <div class="eq-row"><span class="eq-name">Ascia bipenne (1d12 tagliante)</span><span class="eq-note">pesante, a due mani</span></div>
+      <div class="eq-row"><span class="eq-name">Artigli naturali (1d6 tagliante)</span><span class="eq-note">sempre disponibili, non disarmabile</span></div>
+      <div class="eq-row"><span class="eq-name">Asce da lancio ×2 (1d6)</span><span class="eq-note">lancio 6/18 m</span></div>
+      <div class="eq-row"><span class="eq-name">Armatura a scaglie</span><span class="eq-note">CA 13 — opzionale, già coperto dall'armatura naturale</span></div>
+      <div class="eq-row"><span class="eq-name">Zaino dell'esploratore</span><span class="eq-note">kit base</span></div>
+      <div class="eq-row"><span class="eq-name">Oro</span><span class="eq-note">da definire col DM</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BACKGROUND -->
+    <div class="section-title">Background — La Belva</div>
+
+    <div class="bg-block key">
+      Per gli <strong>orsi umani non esiste famiglia</strong>. Il padre abbandona la madre dopo il concepimento — non per crudeltà, ma perché è semplicemente così che funziona per la loro specie. La madre, spesso sopraffatta, abbandona i cuccioli poco dopo la nascita. Non è un'eccezione. È la norma. Chi sopravvive, sopravvive da solo.
+    </div>
+    <div class="bg-block">
+      Lui è sopravvissuto. <strong>Non sa come.</strong> Non se lo chiede. Ha imparato a cacciare osservando i predatori, a ripararsi guardando le bestie, a combattere subendo colpi finché non ha capito come restituirli. Nessuno gli ha insegnato nulla. Nessuno era lì per farlo.
+    </div>
+    <div class="bg-block">
+      Non porta rancore verso chi lo ha abbandonato — <strong>non conosce il concetto di abbandono</strong>. Per lui è semplicemente il modo in cui vanno le cose. Non è triste, non è arrabbiato. È solo quello che è: una creatura che si è fatta da sola, pezzo per pezzo, in un mondo che non si è mai curato di lui.
+    </div>
+    <div class="bg-block">
+      Nel gruppo di mercenari è <strong>l'arma da guerra</strong>: qualcuno lo punta nella direzione giusta, lui distrugge. Non capisce il concetto di "salvare il mondo" — ma abbattere ciò che gli viene indicato soddisfa perfettamente i suoi istinti. È pericoloso non perché sia malvagio, ma perché è <strong>semplicemente selvaggio</strong>.
+    </div>
+
+    <div class="trait-grid">
+      <div class="trait-item">
+        <div class="trait-label">Nome</div>
+        <div class="trait-val empty">Nessuno. Non ne ha mai avuto uno.</div>
+      </div>
+      <div class="trait-item">
+        <div class="trait-label">Origine</div>
+        <div class="trait-val">Abbandonato alla nascita. È nella natura degli orsi umani.</div>
+      </div>
+      <div class="trait-item">
+        <div class="trait-label">Motivazione</div>
+        <div class="trait-val">Sopravvivenza e istinto puro</div>
+      </div>
+      <div class="trait-item">
+        <div class="trait-label">Ruolo nel gruppo</div>
+        <div class="trait-val">L'arma da guerra. Puntalo e lascialo andare.</div>
+      </div>
+      <div class="trait-item">
+        <div class="trait-label">Legami</div>
+        <div class="trait-val">Chi lo nutre, lo protegge o lo lascia essere libero</div>
+      </div>
+      <div class="trait-item">
+        <div class="trait-label">Arco narrativo</div>
+        <div class="trait-val">Qualcosa o qualcuno riuscirà mai a toccarlo davvero?</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span class="footer-text">D&amp;D 5e &nbsp;·&nbsp; Orso Umano Barbaro Berserker &nbsp;·&nbsp; Livello 5</span>
+    <span class="footer-text">Generato con Claude</span>
+  </div>
+
+</div>
+</div>
+</body>
+</html>
